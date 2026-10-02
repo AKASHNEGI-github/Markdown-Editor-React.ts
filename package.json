@@ -16,12 +16,12 @@
   "author": "Akash Negi",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/first-last-github/markdown-editor.git"
+    "url": "git+https://github.com/AKASHNEGI-github/Markdown-Editor-React.ts.git"
   },
   "bugs": {
-    "url": "https://github.com/first-last-github/markdown-editor/issues"
+    "url": "https://github.com/AKASHNEGI-github/Markdown-Editor-React.ts/issues"
   },
-  "homepage": "https://github.com/first-last-github/markdown-editor#readme",
+  "homepage": "https://github.com/AKASHNEGI-github/Markdown-Editor-React.ts#readme",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
