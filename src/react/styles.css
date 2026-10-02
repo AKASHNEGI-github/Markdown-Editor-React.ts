@@ -1,0 +1,1142 @@
+/* md-editor styles. Everything is driven by --mde-* custom properties so a
+   host app can restyle without touching these rules. */
+
+/*
+ * Theme variable scope, split out from .mde-root so it can be re-established
+ * independently wherever content portals outside the .mde-root DOM subtree
+ * (popovers render into document.body via createPortal — see Popover.tsx).
+ * Without this, var(--mde-bg) etc. resolve to nothing outside .mde-root and
+ * silently fall back to their CSS-initial value (transparent for background,
+ * `black`-ish `currentcolor` for the others), so a portaled popover would be
+ * see-through and mismatched with the editor's current light/dark theme.
+ */
+.mde-root,
+.mde-theme-scope {
+  --mde-font-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mde-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --mde-bg: #ffffff;
+  --mde-bg-subtle: #f6f8fa;
+  --mde-bg-inset: #f6f8fa;
+  --mde-border: #d0d7de;
+  --mde-border-subtle: #eaeef2;
+  --mde-text: #1f2328;
+  --mde-text-muted: #59636e;
+  --mde-accent: #0969da;
+  --mde-accent-contrast: #ffffff;
+  --mde-focus-ring: #57606a;
+  --mde-danger: #cf222e;
+
+  --mde-alert-note-fg: #0969da;
+  --mde-alert-tip-fg: #1a7f37;
+  --mde-alert-important-fg: #8250df;
+  --mde-alert-warning-fg: #9a6700;
+  --mde-alert-caution-fg: #cf222e;
+
+  --mde-tok-plain: #24292f;
+  --mde-tok-keyword: #cf222e;
+  --mde-tok-type: #953800;
+  --mde-tok-string: #0a3069;
+  --mde-tok-comment: #6e7781;
+  --mde-tok-number: #0550ae;
+  --mde-tok-function: #8250df;
+  --mde-tok-operator: #cf222e;
+  --mde-tok-punctuation: #24292f;
+  --mde-tok-tag: #116329;
+  --mde-tok-attr: #953800;
+  --mde-tok-variable: #953800;
+  --mde-tok-boolean: #0550ae;
+  --mde-tok-property: #0550ae;
+  --mde-tok-inserted: #116329;
+  --mde-tok-deleted: #82071e;
+  --mde-tok-meta: #8250df;
+  --mde-code-bg: #f6f8fa;
+
+  --mde-radius: 6px;
+  --mde-radius-sm: 4px;
+}
+
+.mde-root {
+  color: var(--mde-text);
+  font-family: var(--mde-font-ui);
+  background: var(--mde-bg);
+  border: 1px solid var(--mde-border);
+  border-radius: var(--mde-radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.mde-root *,
+.mde-root *::before,
+.mde-root *::after,
+.mde-theme-scope *,
+.mde-theme-scope *::before,
+.mde-theme-scope *::after {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mde-root:not([data-theme="light"]),
+  .mde-theme-scope:not([data-theme="light"]) {
+    --mde-bg: #0d1117;
+    --mde-bg-subtle: #161b22;
+    --mde-bg-inset: #161b22;
+    --mde-border: #30363d;
+    --mde-border-subtle: #21262d;
+    --mde-text: #e6edf3;
+    --mde-text-muted: #8b949e;
+    --mde-accent: #4493f8;
+    --mde-accent-contrast: #0d1117;
+    --mde-focus-ring: #8b949e;
+    --mde-danger: #ff7b72;
+
+    --mde-alert-note-fg: #4493f8;
+    --mde-alert-tip-fg: #3fb950;
+    --mde-alert-important-fg: #ab7df8;
+    --mde-alert-warning-fg: #d29922;
+    --mde-alert-caution-fg: #ff7b72;
+
+    --mde-tok-plain: #e6edf3;
+    --mde-tok-keyword: #ff7b72;
+    --mde-tok-type: #ffa657;
+    --mde-tok-string: #a5d6ff;
+    --mde-tok-comment: #8b949e;
+    --mde-tok-number: #79c0ff;
+    --mde-tok-function: #d2a8ff;
+    --mde-tok-operator: #ff7b72;
+    --mde-tok-punctuation: #e6edf3;
+    --mde-tok-tag: #7ee787;
+    --mde-tok-attr: #ffa657;
+    --mde-tok-variable: #ffa657;
+    --mde-tok-boolean: #79c0ff;
+    --mde-tok-property: #79c0ff;
+    --mde-tok-inserted: #aff5b4;
+    --mde-tok-deleted: #ffdcd7;
+    --mde-tok-meta: #d2a8ff;
+    --mde-code-bg: #161b22;
+  }
+}
+.mde-root[data-theme="dark"],
+.mde-theme-scope[data-theme="dark"] {
+  --mde-bg: #0d1117;
+  --mde-bg-subtle: #161b22;
+  --mde-bg-inset: #161b22;
+  --mde-border: #30363d;
+  --mde-border-subtle: #21262d;
+  --mde-text: #e6edf3;
+  --mde-text-muted: #8b949e;
+  --mde-accent: #4493f8;
+  --mde-accent-contrast: #0d1117;
+  --mde-focus-ring: #8b949e;
+  --mde-danger: #ff7b72;
+
+  --mde-alert-note-fg: #4493f8;
+  --mde-alert-tip-fg: #3fb950;
+  --mde-alert-important-fg: #ab7df8;
+  --mde-alert-warning-fg: #d29922;
+  --mde-alert-caution-fg: #ff7b72;
+
+  --mde-tok-plain: #e6edf3;
+  --mde-tok-keyword: #ff7b72;
+  --mde-tok-type: #ffa657;
+  --mde-tok-string: #a5d6ff;
+  --mde-tok-comment: #8b949e;
+  --mde-tok-number: #79c0ff;
+  --mde-tok-function: #d2a8ff;
+  --mde-tok-operator: #ff7b72;
+  --mde-tok-punctuation: #e6edf3;
+  --mde-tok-tag: #7ee787;
+  --mde-tok-attr: #ffa657;
+  --mde-tok-variable: #ffa657;
+  --mde-tok-boolean: #79c0ff;
+  --mde-tok-property: #79c0ff;
+  --mde-tok-inserted: #aff5b4;
+  --mde-tok-deleted: #ffdcd7;
+  --mde-tok-meta: #d2a8ff;
+  --mde-code-bg: #161b22;
+}
+
+.mde-root.mde-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  border-radius: 0;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.mde-root :focus-visible,
+.mde-theme-scope :focus-visible {
+  outline: 2px solid var(--mde-focus-ring);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mde-root *,
+  .mde-theme-scope * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Toolbar                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.mde-toolbar {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--mde-border);
+  background: var(--mde-bg-subtle);
+}
+
+.mde-toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  padding: 6px;
+  /* Explicit on both axes: an auto value on only one axis makes browsers
+     force the other to `auto` too, which would clip/scroll popovers that
+     are descendants of this row. Our popovers portal out to <body> so this
+     is now just hygiene, not the fix itself — see Popover.tsx. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.mde-toolbar-row + .mde-toolbar-row {
+  border-top: 1px solid var(--mde-border-subtle);
+}
+.mde-toolbar-row-utility {
+  min-height: 44px;
+}
+
+.mde-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding-right: 4px;
+  margin-right: 4px;
+  border-right: 1px solid var(--mde-border-subtle);
+}
+.mde-toolbar-group:last-of-type {
+  border-right: none;
+}
+
+.mde-toolbar-spacer {
+  flex: 1 1 auto;
+  min-width: 8px;
+}
+
+.mde-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: var(--mde-radius-sm);
+  background: transparent;
+  color: var(--mde-text);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  font-family: inherit;
+}
+.mde-toolbar-btn:hover:not(:disabled) {
+  background: var(--mde-border-subtle);
+}
+.mde-toolbar-btn.mde-active {
+  background: var(--mde-text);
+  color: var(--mde-bg);
+  border-color: var(--mde-text);
+}
+.mde-toolbar-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.mde-glyph-btn {
+  font-size: 14px;
+  width: 32px;
+}
+.mde-text-btn {
+  width: auto;
+  padding: 0 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.mde-code-lang-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.mde-code-lang-trigger {
+  gap: 4px;
+  padding: 0 8px;
+}
+.mde-code-lang-trigger-label {
+  font-size: 12px;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mde-lang-menu {
+  max-height: 280px;
+  overflow-y: auto;
+}
+.mde-menu-item-selected {
+  background: var(--mde-border-subtle);
+  font-weight: 600;
+}
+
+.mde-view-controls {
+  border-right: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Popovers (table picker, alert menu)                                    */
+/* ---------------------------------------------------------------------- */
+
+.mde-popover {
+  z-index: 2147483001;
+  background: var(--mde-bg);
+  border: 1px solid var(--mde-border);
+  border-radius: var(--mde-radius);
+  box-shadow: 0 8px 24px rgba(140, 149, 159, 0.3);
+  padding: 8px;
+  max-height: min(360px, calc(100vh - 24px));
+  overflow-y: auto;
+}
+.mde-help-popover {
+  width: min(420px, calc(100vw - 24px));
+  max-height: min(70vh, 560px);
+}
+.mde-help-panel {
+  padding: 4px;
+}
+.mde-help-intro {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  color: var(--mde-text-muted);
+  line-height: 1.5;
+}
+.mde-help-intro code {
+  font-family: var(--mde-font-mono);
+  background: var(--mde-code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+.mde-help-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.mde-help-table td {
+  padding: 4px 6px;
+  border-top: 1px solid var(--mde-border-subtle);
+  vertical-align: top;
+}
+.mde-help-table tr:first-child td {
+  border-top: none;
+}
+.mde-help-table td:last-child {
+  color: var(--mde-text-muted);
+}
+.mde-help-table code {
+  font-family: var(--mde-font-mono);
+  font-size: 0.95em;
+  background: var(--mde-code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.mde-menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  padding: 4px;
+}
+.mde-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 6px 8px;
+  border-radius: var(--mde-radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--mde-text);
+  font-family: inherit;
+}
+.mde-menu-item:hover {
+  background: var(--mde-border-subtle);
+}
+.mde-heading-menu-item-1 {
+  font-size: 15px;
+  font-weight: 700;
+}
+.mde-heading-menu-item-2 {
+  font-size: 14px;
+  font-weight: 700;
+}
+.mde-heading-menu-item-3 {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.mde-heading-menu-item-4 {
+  font-size: 13px;
+  font-weight: 600;
+}
+.mde-heading-menu-item-5 {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.mde-heading-menu-item-6 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mde-text-muted);
+}
+.mde-alert-menu-item::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: currentColor;
+}
+.mde-alert-menu-item.mde-alert-note {
+  color: var(--mde-alert-note-fg);
+}
+.mde-alert-menu-item.mde-alert-tip {
+  color: var(--mde-alert-tip-fg);
+}
+.mde-alert-menu-item.mde-alert-important {
+  color: var(--mde-alert-important-fg);
+}
+.mde-alert-menu-item.mde-alert-warning {
+  color: var(--mde-alert-warning-fg);
+}
+.mde-alert-menu-item.mde-alert-caution {
+  color: var(--mde-alert-caution-fg);
+}
+
+.mde-table-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 16px);
+  grid-template-rows: repeat(8, 16px);
+  gap: 2px;
+}
+.mde-table-picker-cell {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid var(--mde-border);
+  border-radius: 2px;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.mde-table-picker-cell.mde-active {
+  background: var(--mde-text);
+  border-color: var(--mde-text);
+}
+.mde-table-picker-label {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--mde-text-muted);
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Table contextual tools                                                 */
+/* ---------------------------------------------------------------------- */
+
+.mde-table-tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--mde-bg-subtle);
+  border-bottom: 1px solid var(--mde-border);
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+.mde-table-tools-label {
+  font-size: 12px;
+  color: var(--mde-text-muted);
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.mde-table-tools-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--mde-border);
+  margin: 0 2px;
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Body / panes                                                           */
+/* ---------------------------------------------------------------------- */
+
+.mde-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.mde-mode-split .mde-edit-pane,
+.mde-mode-split .mde-preview-pane {
+  flex: 1 1 50%;
+  min-width: 0;
+}
+.mde-mode-split .mde-edit-pane {
+  border-right: 1px solid var(--mde-border);
+}
+.mde-mode-edit .mde-edit-pane,
+.mde-mode-preview .mde-preview-pane {
+  flex: 1 1 100%;
+}
+
+.mde-edit-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.mde-textarea-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.mde-gutter {
+  flex: 0 0 auto;
+  overflow: hidden;
+  padding: 12px 0;
+  text-align: right;
+  background: var(--mde-bg-subtle);
+  border-right: 1px solid var(--mde-border-subtle);
+  color: var(--mde-text-muted);
+  font-family: var(--mde-font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.mde-gutter-line {
+  padding: 0 10px;
+  min-width: 2.2em;
+}
+.mde-gutter-line-active {
+  color: var(--mde-text);
+  font-weight: 600;
+}
+
+.mde-textarea {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 12px 14px;
+  background: var(--mde-bg);
+  color: var(--mde-text);
+  font-family: var(--mde-font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  tab-size: 2;
+}
+.mde-textarea-nowrap {
+  white-space: pre;
+  overflow-x: auto;
+}
+.mde-textarea::placeholder {
+  color: var(--mde-text-muted);
+}
+.mde-textarea:disabled {
+  opacity: 0.6;
+}
+
+.mde-editor-copy-btn {
+  z-index: 1;
+}
+
+.mde-preview {
+  padding: 16px 20px;
+  overflow-y: auto;
+  min-width: 0;
+}
+.mde-preview-pane {
+  overflow-y: auto;
+}
+
+.mde-html-pane {
+  flex: 1 1 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  background: var(--mde-code-bg);
+}
+.mde-html-view {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 4px 20px 16px;
+  color: var(--mde-tok-plain);
+  font-family: var(--mde-font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.mde-html-copy-btn.mde-html-copy-btn {
+  position: static;
+  align-self: flex-end;
+  margin: 10px 10px 0 0;
+  opacity: 1;
+  flex-shrink: 0;
+}
+
+.mde-viewer-root {
+  display: block;
+  border: none;
+  overflow: visible;
+}
+.mde-viewer-root .mde-preview {
+  /* padding: 0; */
+}
+
+/* Mobile: below the breakpoint, split mode becomes a switchable single pane. */
+.mde-mobile-tabs {
+  display: none;
+  gap: 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--mde-border);
+  background: var(--mde-bg-subtle);
+}
+@media (max-width: 640px) {
+  .mde-mode-split {
+    flex-direction: column;
+  }
+  .mde-mode-split .mde-edit-pane {
+    border-right: none;
+  }
+  .mde-mode-split[data-mobile-pane="edit"] .mde-preview-pane {
+    display: none;
+  }
+  .mde-mode-split[data-mobile-pane="preview"] .mde-edit-pane {
+    display: none;
+  }
+  .mde-mobile-tabs[data-visible="true"] {
+    display: flex;
+  }
+  .mde-toolbar-btn {
+    min-width: 40px;
+    height: 40px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Rendered content                                                       */
+/* ---------------------------------------------------------------------- */
+
+.mde-content,
+.mde-preview {
+  color: var(--mde-text);
+  font-size: 15px;
+  line-height: 1.65;
+  word-wrap: break-word;
+}
+
+.mde-heading {
+  position: relative;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.4em 0 0.6em;
+}
+.mde-heading:first-child {
+  margin-top: 0;
+}
+.mde-h1 {
+  font-size: 1.8em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--mde-border-subtle);
+}
+.mde-h2 {
+  font-size: 1.4em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--mde-border-subtle);
+}
+.mde-h3 {
+  font-size: 1.2em;
+}
+.mde-h4 {
+  font-size: 1.05em;
+}
+.mde-h5 {
+  font-size: 0.95em;
+}
+.mde-h6 {
+  font-size: 0.9em;
+  color: var(--mde-text-muted);
+}
+.mde-heading-anchor {
+  position: absolute;
+  left: -1.1em;
+  color: var(--mde-text-muted);
+  text-decoration: none;
+  opacity: 0;
+  font-weight: 400;
+}
+.mde-heading:hover .mde-heading-anchor,
+.mde-heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+.mde-p {
+  margin: 0.7em 0;
+}
+
+.mde-hr {
+  border: none;
+  border-top: 1px solid var(--mde-border);
+  margin: 1.6em 0;
+}
+
+.mde-blockquote {
+  margin: 0.8em 0;
+  padding: 0 1em;
+  border-left: 3px solid var(--mde-border);
+  color: var(--mde-text-muted);
+}
+.mde-blockquote > *:first-child {
+  margin-top: 0;
+}
+.mde-blockquote > *:last-child {
+  margin-bottom: 0;
+}
+
+.mde-alert {
+  margin: 0.8em 0;
+  padding: 10px 14px;
+  border-left: 3px solid currentColor;
+  border-radius: 0 var(--mde-radius-sm) var(--mde-radius-sm) 0;
+  background: var(--mde-bg-subtle);
+}
+.mde-alert-note {
+  color: var(--mde-alert-note-fg);
+}
+.mde-alert-tip {
+  color: var(--mde-alert-tip-fg);
+}
+.mde-alert-important {
+  color: var(--mde-alert-important-fg);
+}
+.mde-alert-warning {
+  color: var(--mde-alert-warning-fg);
+}
+.mde-alert-caution {
+  color: var(--mde-alert-caution-fg);
+}
+.mde-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+.mde-alert-body {
+  color: var(--mde-text);
+  margin-top: 4px;
+  font-size: 0.95em;
+}
+.mde-alert-body > *:first-child {
+  margin-top: 0;
+}
+.mde-alert-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.mde-details {
+  margin: 0.8em 0;
+  border: 1px solid var(--mde-border);
+  border-radius: var(--mde-radius);
+  padding: 0.6em 1em;
+}
+.mde-details[open] {
+  padding-bottom: 0.8em;
+}
+.mde-summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.2em 0;
+  list-style: none;
+}
+.mde-summary::-webkit-details-marker {
+  display: none;
+}
+.mde-summary::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 8px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid var(--mde-text-muted);
+  transition: transform 0.1s ease;
+  vertical-align: middle;
+}
+.mde-details[open] > .mde-summary::before {
+  transform: rotate(90deg);
+}
+.mde-summary:hover {
+  text-decoration: underline;
+}
+.mde-details-body {
+  margin-top: 0.6em;
+  padding-top: 0.6em;
+  border-top: 1px solid var(--mde-border-subtle);
+}
+.mde-details-body > *:first-child {
+  margin-top: 0;
+}
+.mde-details-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.mde-list {
+  margin: 0.6em 0;
+  padding-left: 1.6em;
+}
+.mde-list .mde-list {
+  margin: 0.2em 0;
+}
+.mde-li {
+  margin: 0.2em 0;
+}
+.mde-checklist-item {
+  list-style: none;
+  margin-left: -1.4em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+}
+.mde-checkbox {
+  margin: 0;
+  transform: translateY(1px);
+}
+.mde-li-content {
+  min-width: 0;
+}
+
+.mde-table-wrapper {
+  overflow-x: auto;
+  margin: 0.8em 0;
+}
+.mde-table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+  font-size: 0.95em;
+}
+.mde-table th,
+.mde-table td {
+  border: 1px solid var(--mde-border);
+  padding: 6px 12px;
+}
+.mde-table th {
+  background: var(--mde-bg-subtle);
+  font-weight: 600;
+}
+
+.mde-link {
+  color: var(--mde-accent);
+  text-decoration: none;
+}
+.mde-link:hover {
+  text-decoration: underline;
+}
+
+.mde-image {
+  max-width: 100%;
+  border-radius: var(--mde-radius-sm);
+}
+
+.mde-inline-code {
+  font-family: var(--mde-font-mono);
+  font-size: 0.87em;
+  background: var(--mde-code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: var(--mde-radius-sm);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Code blocks / groups                                                   */
+/* ---------------------------------------------------------------------- */
+
+.mde-code-block {
+  position: relative;
+  margin: 0.8em 0;
+  border-radius: var(--mde-radius);
+  overflow: hidden;
+  border: 1px solid var(--mde-border-subtle);
+}
+.mde-code-title {
+  padding: 6px 12px;
+  font-size: 0.8em;
+  color: var(--mde-text-muted);
+  background: var(--mde-bg-subtle);
+  border-bottom: 1px solid var(--mde-border-subtle);
+  font-family: var(--mde-font-mono);
+}
+.mde-pre {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  background: var(--mde-code-bg);
+}
+.mde-code {
+  font-family: var(--mde-font-mono);
+  font-size: 0.87em;
+  line-height: 1.6;
+  color: var(--mde-tok-plain);
+  white-space: pre;
+}
+.mde-copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--mde-border);
+  background: var(--mde-bg);
+  color: var(--mde-text-muted);
+  padding: 0;
+  border-radius: var(--mde-radius-sm);
+  cursor: pointer;
+  opacity: 0.75;
+  font-family: inherit;
+}
+.mde-copy-btn:hover,
+.mde-copy-btn:focus-visible {
+  opacity: 1;
+  background: var(--mde-border-subtle);
+  color: var(--mde-text);
+}
+.mde-copy-btn.mde-copied {
+  opacity: 1;
+  color: var(--mde-alert-tip-fg);
+  border-color: currentColor;
+}
+
+.mde-tok-keyword {
+  color: var(--mde-tok-keyword);
+}
+.mde-tok-type {
+  color: var(--mde-tok-type);
+}
+.mde-tok-string {
+  color: var(--mde-tok-string);
+}
+.mde-tok-comment {
+  color: var(--mde-tok-comment);
+  font-style: italic;
+}
+.mde-tok-number {
+  color: var(--mde-tok-number);
+}
+.mde-tok-function {
+  color: var(--mde-tok-function);
+}
+.mde-tok-operator {
+  color: var(--mde-tok-operator);
+}
+.mde-tok-punctuation {
+  color: var(--mde-tok-punctuation);
+}
+.mde-tok-tag {
+  color: var(--mde-tok-tag);
+}
+.mde-tok-attr {
+  color: var(--mde-tok-attr);
+}
+.mde-tok-variable {
+  color: var(--mde-tok-variable);
+}
+.mde-tok-boolean {
+  color: var(--mde-tok-boolean);
+}
+.mde-tok-property {
+  color: var(--mde-tok-property);
+}
+.mde-tok-inserted {
+  color: var(--mde-tok-inserted);
+  background: rgba(46, 160, 67, 0.15);
+  display: inline-block;
+  width: 100%;
+}
+.mde-tok-deleted {
+  color: var(--mde-tok-deleted);
+  background: rgba(248, 81, 73, 0.15);
+  display: inline-block;
+  width: 100%;
+}
+.mde-tok-meta {
+  color: var(--mde-tok-meta);
+}
+
+.mde-code-group {
+  margin: 0.8em 0;
+  border: 1px solid var(--mde-border-subtle);
+  border-radius: var(--mde-radius);
+  overflow: hidden;
+}
+.mde-code-group .mde-code-block {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+.mde-code-group-tabs {
+  display: flex;
+  overflow-x: auto;
+  background: var(--mde-bg-subtle);
+  border-bottom: 1px solid var(--mde-border-subtle);
+}
+.mde-code-group-tab {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--mde-text-muted);
+  font-size: 0.85em;
+  font-family: var(--mde-font-mono);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.mde-code-group-tab.mde-active {
+  color: var(--mde-text);
+  border-bottom-color: var(--mde-text);
+}
+.mde-code-group-panel[hidden] {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Print / "download as PDF"                                              */
+/* ---------------------------------------------------------------------- */
+
+/* There is no bundled PDF library (zero runtime dependencies), so
+   "download as PDF" uses the browser's own print dialog against a
+   dedicated render of the preview. That render is portaled straight to
+   document.body — see the `printContainer` portal in MarkdownEditor.tsx —
+   rather than living inside .mde-root, so it escapes whatever layout the
+   host page puts around the editor (a heading above it, a footer below it,
+   a sidebar next to it, ...). `.mde-print-root` is that portal's container;
+   `.mde-print-only` is the wrapper rendered inside it. Both stay hidden
+   outside of an actual print, so nothing ever flashes on screen while the
+   print dialog is opening. This block only ever affects an actual print. */
+.mde-print-only {
+  display: none;
+}
+
+@media print {
+  /* Force a plain light appearance regardless of the on-screen theme —
+     printed documents should be black-on-white, not whatever the reader
+     had their editor set to. This needs !important: .mde-print-only lives
+     outside .mde-root's DOM subtree (see above), so it also carries
+     .mde-theme-scope to reach these variables at all (see the "Theme
+     variable scope" comment near the top of this file), and without
+     !important its declarations here can lose on *specificity* — not just
+     source order — to the .mde-theme-scope:not([data-theme="light"])
+     dark-mode-preference rule when the reader's OS is in dark mode. */
+  :root,
+  .mde-print-only {
+    --mde-bg: #ffffff !important;
+    --mde-bg-subtle: #f6f8fa !important;
+    --mde-bg-inset: #f6f8fa !important;
+    --mde-border: #d0d7de !important;
+    --mde-border-subtle: #eaeef2 !important;
+    --mde-text: #1f2328 !important;
+    --mde-text-muted: #57606a !important;
+    --mde-accent: #0969da !important;
+    --mde-code-bg: #f6f8fa !important;
+    --mde-tok-plain: #24292f !important;
+    --mde-tok-keyword: #cf222e !important;
+    --mde-tok-type: #953800 !important;
+    --mde-tok-string: #0a3069 !important;
+    --mde-tok-comment: #6e7781 !important;
+    --mde-tok-number: #0550ae !important;
+    --mde-tok-function: #8250df !important;
+    --mde-tok-operator: #cf222e !important;
+    --mde-tok-punctuation: #24292f !important;
+    --mde-tok-tag: #116329 !important;
+    --mde-tok-attr: #953800 !important;
+    --mde-tok-variable: #953800 !important;
+    --mde-tok-boolean: #0550ae !important;
+    --mde-tok-property: #0550ae !important;
+    --mde-tok-inserted: #116329 !important;
+    --mde-tok-deleted: #82071e !important;
+    --mde-tok-meta: #8250df !important;
+    --mde-alert-note-fg: #0969da !important;
+    --mde-alert-tip-fg: #1a7f37 !important;
+    --mde-alert-important-fg: #8250df !important;
+    --mde-alert-warning-fg: #9a6700 !important;
+    --mde-alert-caution-fg: #cf222e !important;
+  }
+  /* Hide the entire host page — whatever it is, however .mde-root is
+     nested inside it — and show only the dedicated print portal. Scoping
+     this at the body level, rather than the old ".mde-root > *", is what
+     makes it correct for a reusable, embeddable editor: .mde-root is
+     rarely a direct child of <body>, so hiding only its own siblings left
+     every ancestor's OTHER children (a page header above the editor, a
+     footer below it, a sidebar next to it, ...) fully visible in the
+     printed output. */
+  body > *:not(.mde-print-root) {
+    display: none !important;
+  }
+  .mde-print-root {
+    display: block !important;
+  }
+  .mde-print-only {
+    display: block !important;
+    color: var(--mde-text);
+    background: var(--mde-bg);
+  }
+  .mde-print-only .mde-preview-pane,
+  .mde-print-only .mde-preview {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+  .mde-heading {
+    break-after: avoid;
+  }
+  .mde-code-block,
+  .mde-code-group,
+  .mde-table-wrapper,
+  .mde-blockquote,
+  .mde-alert,
+  .mde-details {
+    break-inside: avoid;
+  }
+  .mde-copy-btn {
+    display: none !important;
+  }
+}
