@@ -2,16 +2,28 @@
 
 Two entry points:
 
+<<<<<<< HEAD
 - **`first-last-markdown-editor`** (`src/index.ts`) — React components plus the full core API. Use this in a React app.
 - **`first-last-markdown-editor/core`** (`src/core/index.ts`) — parsing/rendering only, no React and no DOM. Safe in Node (SSR), server components, or a non-React app.
 
 Install with `npm install first-last-markdown-editor`. The examples below import from the package name; `renderToReactElements` is exported from the main entry only (the `/core` entry has no React dependency).
+=======
+- **`akash-negi-markdown-editor`** (`src/index.ts`) — React components plus the full core API. Use this in a React app.
+- **`akash-negi-markdown-editor/core`** (`src/core/index.ts`) — parsing/rendering only, no React and no DOM. Safe in Node (SSR), server components, or a non-React app.
+
+Install with `npm install akash-negi-markdown-editor`. The examples below import from the package name; `renderToReactElements` is exported from the main entry only (the `/core` entry has no React dependency).
+>>>>>>> c24d699 (updated the project)
 
 ## `<MarkdownEditor />`
 
 ```tsx
+<<<<<<< HEAD
 import { MarkdownEditor } from "first-last-markdown-editor";
 import "first-last-markdown-editor/styles.css";
+=======
+import { MarkdownEditor } from "akash-negi-markdown-editor";
+import "akash-negi-markdown-editor/styles.css";
+>>>>>>> c24d699 (updated the project)
 
 <MarkdownEditor defaultValue="# Hello" onChange={(md) => console.log(md)} />
 ```
@@ -34,7 +46,11 @@ import "first-last-markdown-editor/styles.css";
 | `height` / `minHeight` | `string \| number` | `minHeight: "320px"` | Ignored while fullscreen. |
 | `className` | `string` | — | |
 | `labels` | `ToolbarLabels` | — | Override toolbar button `title`/tooltip text (for i18n). |
+<<<<<<< HEAD
 | `interactiveChecklists` | `boolean` | `false` | Let clicking a preview checkbox toggle the markdown. |
+=======
+| `interactiveChecklists` | `boolean` | `true` | Let clicking a preview checkbox toggle the markdown (ignored when `readOnly`). |
+>>>>>>> c24d699 (updated the project)
 | `openExternalLinksInNewTab` | `boolean` | `true` | |
 | `headingIds` | `boolean` | `true` | Auto-generate GitHub-style heading anchor ids. |
 | `showTableTools` | `boolean` | `true` | Contextual add/remove row & column, alignment, and format controls when the cursor is inside a table. |
@@ -113,6 +129,7 @@ ref.current?.reset(); // same as clicking the toolbar's reset button
 
 ## `<MarkdownViewer />`
 
+<<<<<<< HEAD
 Read-only rendering, for content you don't need to edit (e.g. a saved post).
 
 ```tsx
@@ -126,6 +143,26 @@ Props: `value`, `highlighter`, `openExternalLinksInNewTab`, `headingIds`, `theme
 
 ```ts
 import { parseMarkdown, renderToHtml, markdownToHtml } from "first-last-markdown-editor/core";
+=======
+Rendering for content you don't need to edit (e.g. a saved post). Task-list checkboxes are clickable by default.
+
+```tsx
+import { MarkdownViewer } from "akash-negi-markdown-editor";
+<MarkdownViewer value={markdown} />
+```
+
+Props: `value`, `highlighter`, `openExternalLinksInNewTab`, `headingIds`, `theme`, `className`, plus:
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `interactiveChecklists` | `boolean` | `true` | Let readers tick/untick task-list checkboxes. Set `false` for a strictly read-only view. |
+| `onChange` | `(value: string) => void` | — | Called with the updated markdown when a checkbox is toggled. Use it to persist the change. The viewer also updates its own display immediately; a new `value` from the parent always replaces it. |
+
+## Core functions (`akash-negi-markdown-editor/core`)
+
+```ts
+import { parseMarkdown, renderToHtml, markdownToHtml } from "akash-negi-markdown-editor/core";
+>>>>>>> c24d699 (updated the project)
 
 const doc = parseMarkdown(markdownString, { headingIds: true }); // -> DocumentNode (AST)
 const html = renderToHtml(doc, { highlighter, openExternalLinksInNewTab }); // -> string
@@ -135,7 +172,11 @@ const html2 = markdownToHtml(markdownString); // parse + render in one call
 - **`parseMarkdown(source, options?) -> DocumentNode`** — no DOM required; safe on the server.
 - **`renderToHtml(doc, options?) -> string`** — self-contained HTML (no `<html>`/`<body>` wrapper). Includes a tiny inline `<script>` per code group for tab switching, so it still works outside React (e.g. emailed HTML, a static export). Safe by construction: only `u`/`sub`/`sup` pass through as real tags; everything else is escaped, and URLs are scheme-checked.
 - **`markdownToHtml(source, parseOptions?, renderOptions?) -> string`** — convenience wrapper.
+<<<<<<< HEAD
 - **`renderToReactElements(doc, options?) -> ReactNode`** (from `first-last-markdown-editor`) — what `MarkdownEditor`'s preview and `MarkdownViewer` use internally. Prefer the components unless you need custom layout around the rendered output.
+=======
+- **`renderToReactElements(doc, options?) -> ReactNode`** (from `akash-negi-markdown-editor`) — what `MarkdownEditor`'s preview and `MarkdownViewer` use internally. Prefer the components unless you need custom layout around the rendered output.
+>>>>>>> c24d699 (updated the project)
 - **`supportedLanguages() -> { label, value }[]`** and **`isLanguageSupported(lang)`** — from the highlighter registry.
 
 ### AST shape
@@ -147,7 +188,11 @@ See `src/core/types.ts` for the full, commented type definitions (`DocumentNode`
 Pure functions for building your own toolbar or automations, independent of the bundled `<MarkdownEditor />` UI:
 
 ```ts
+<<<<<<< HEAD
 import { toggleBold, setHeadingLevel, insertTable } from "first-last-markdown-editor";
+=======
+import { toggleBold, setHeadingLevel, insertTable } from "akash-negi-markdown-editor";
+>>>>>>> c24d699 (updated the project)
 
 const next = toggleBold({ value: "hello", selection: { start: 0, end: 5 } });
 // -> { value: "**hello**", selection: { start: 2, end: 7 } }

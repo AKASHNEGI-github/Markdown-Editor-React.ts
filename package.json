@@ -1,6 +1,10 @@
 {
   "name": "akash-negi-markdown-editor",
+<<<<<<< HEAD
   "version": "0.1.0",
+=======
+  "version": "0.1.1",
+>>>>>>> c24d699 (updated the project)
   "description": "A dependency-free React + TypeScript markdown editor with live preview built by Akash Negi.",
   "keywords": [
     "markdown",

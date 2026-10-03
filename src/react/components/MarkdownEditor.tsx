@@ -61,7 +61,11 @@ export interface MarkdownEditorProps {
   minHeight?: string | number;
   className?: string;
   labels?: ToolbarLabels;
+<<<<<<< HEAD
   /** Let the preview's checkboxes be clicked to toggle the underlying markdown. Off by default. */
+=======
+  /** Let the preview's checkboxes be clicked to toggle the underlying markdown. On by default (ignored when `readOnly`). */
+>>>>>>> c24d699 (updated the project)
   interactiveChecklists?: boolean;
   openExternalLinksInNewTab?: boolean;
   headingIds?: boolean;
@@ -137,7 +141,11 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
     minHeight = "320px",
     className,
     labels,
+<<<<<<< HEAD
     interactiveChecklists = false,
+=======
+    interactiveChecklists = true,
+>>>>>>> c24d699 (updated the project)
     openExternalLinksInNewTab = true,
     headingIds = true,
     showTableTools = true,

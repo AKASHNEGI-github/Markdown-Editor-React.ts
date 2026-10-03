@@ -32,7 +32,17 @@ interface Ctx {
   interactiveChecklists: boolean;
   onToggleCheckbox?: (index: number, checked: boolean) => void;
   keySeed: { n: number };
+<<<<<<< HEAD
   checklistIndex: { n: number };
+=======
+  /**
+   * Document-order index of every checklist item, computed once up front from
+   * the AST. It must NOT be derived with a counter incremented while rendering:
+   * React may render a component more than once (StrictMode, concurrent
+   * rendering), which would make the indices drift and toggle the wrong item.
+   */
+  checklistIndices: Map<ListItemNode, number>;
+>>>>>>> c24d699 (updated the project)
 }
 
 const ALERT_LABELS: Record<AlertType, string> = {
@@ -206,7 +216,11 @@ function TableView({ node, ctx }: { node: TableNode; ctx: Ctx }) {
 
 function ListItemView({ item, tight, ctx }: { item: ListItemNode; tight: boolean; ctx: Ctx }) {
   const isChecklist = item.checked !== undefined && item.checked !== null;
+<<<<<<< HEAD
   const myIndex = isChecklist ? ctx.checklistIndex.n++ : -1;
+=======
+  const myIndex = isChecklist ? (ctx.checklistIndices.get(item) ?? -1) : -1;
+>>>>>>> c24d699 (updated the project)
   const body = renderItemChildrenReact(item.children, tight, ctx);
   return (
     <li className={isChecklist ? "mde-li mde-checklist-item" : "mde-li"}>
@@ -344,6 +358,39 @@ function renderInlineReact(nodes: InlineNode[], ctx: Ctx): ReactNode {
   return nodes.map((n, i) => renderInlineNodeReact(n, ctx, i));
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * Assigns each checklist item its document-order (depth-first, pre-order)
+ * index. Matches the order `toggleCheckboxInMarkdown` scans the source in.
+ */
+/** @internal exported for tests; not part of the public API. */
+export function indexChecklistItems(
+  blocks: BlockNode[],
+  map: Map<ListItemNode, number>,
+  counter: { n: number } = { n: 0 },
+): Map<ListItemNode, number> {
+  for (const block of blocks) {
+    switch (block.type) {
+      case "list":
+        for (const item of block.items) {
+          if (item.checked !== undefined && item.checked !== null) map.set(item, counter.n++);
+          indexChecklistItems(item.children, map, counter);
+        }
+        break;
+      case "blockquote":
+      case "alert":
+      case "details":
+        indexChecklistItems(block.children, map, counter);
+        break;
+      default:
+        break;
+    }
+  }
+  return map;
+}
+
+>>>>>>> c24d699 (updated the project)
 /** Renders a parsed document to React elements. Used by the live preview and MarkdownViewer. */
 export function renderToReactElements(doc: DocumentNode, options: ReactRenderOptions = {}): ReactNode {
   const ctx: Ctx = {
@@ -352,7 +399,11 @@ export function renderToReactElements(doc: DocumentNode, options: ReactRenderOpt
     interactiveChecklists: options.interactiveChecklists ?? false,
     onToggleCheckbox: options.onToggleCheckbox,
     keySeed: { n: 0 },
+<<<<<<< HEAD
     checklistIndex: { n: 0 },
+=======
+    checklistIndices: indexChecklistItems(doc.children, new Map()),
+>>>>>>> c24d699 (updated the project)
   };
   return <div className="mde-content">{renderBlocksReact(doc.children, ctx)}</div>;
 }

@@ -1,4 +1,8 @@
 node_modules/
 dist-demo/
+<<<<<<< HEAD
+=======
+dist/
+>>>>>>> c24d699 (updated the project)
 *.tgz
 .DS_Store

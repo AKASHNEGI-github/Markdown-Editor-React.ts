@@ -1,8 +1,14 @@
 # Markdown Editor
 
+<<<<<<< HEAD
 ![Markdown Editor screenshot](https://raw.githubusercontent.com/first-last-github/markdown-editor/main/image.png)
 
 # first-last-markdown-editor
+=======
+![Markdown Editor screenshot](https://raw.githubusercontent.com/AKASHNEGI-github/Markdown-Editor-React.ts/main/image.png)
+
+# akash-negi-markdown-editor
+>>>>>>> c24d699 (updated the project)
 
 A source + live-preview markdown editor for React, written in TypeScript,
 with **zero runtime dependencies** (React is the only peer dependency).
@@ -50,7 +56,11 @@ See `docs/SYNTAX.md` for the full markdown syntax this editor supports, and
 ## Installation
 
 ```bash
+<<<<<<< HEAD
 npm install first-last-markdown-editor
+=======
+npm install akash-negi-markdown-editor
+>>>>>>> c24d699 (updated the project)
 ```
 
 React 18 or 19 is required as a peer dependency (`react` and `react-dom`).
@@ -58,20 +68,69 @@ React 18 or 19 is required as a peer dependency (`react` and `react-dom`).
 ## Usage
 
 ```tsx
+<<<<<<< HEAD
 import { MarkdownEditor } from "first-last-markdown-editor";
 import "first-last-markdown-editor/styles.css";
+=======
+import { MarkdownEditor } from "akash-negi-markdown-editor";
+import "akash-negi-markdown-editor/styles.css";
+>>>>>>> c24d699 (updated the project)
 
 export default function App() {
   return <MarkdownEditor defaultValue="# Hello" onChange={(md) => console.log(md)} />;
 }
 ```
 
+<<<<<<< HEAD
 Next.js: the components already include the `"use client"` directive, so you can import them from a Server Component file or a Client Component file.
 
 `markdownToHtml()` and `parseMarkdown()` from `first-last-markdown-editor/core` have no React or DOM dependency, so they also work in Node, Next.js Server Components and API routes for rendering saved markdown to HTML:
 
 ```ts
 import { markdownToHtml } from "first-last-markdown-editor/core";
+=======
+> **Don't forget the stylesheet.** `import "akash-negi-markdown-editor/styles.css";` is required, once, near
+> your app's entry point. Without it the editor renders completely unstyled.
+
+Next.js: the components already include the `"use client"` directive, so you can import them from a Server Component file or a Client Component file. In the App Router, import the stylesheet in `app/layout.tsx`.
+
+### Read-only rendering (and clickable task lists)
+
+```tsx
+import { MarkdownViewer } from "akash-negi-markdown-editor";
+
+<MarkdownViewer
+  value={markdown}
+  onChange={(next) => save(next)} // called when a task-list checkbox is toggled
+/>
+```
+
+Task-list checkboxes are clickable by default in both `MarkdownViewer` and the editor's preview. Pass `interactiveChecklists={false}` for a strictly read-only view.
+
+### Styling & existing global CSS
+
+All styles are scoped to `.mde-root` and driven by `--mde-*` CSS variables, so you can restyle the editor
+without touching the package. The stylesheet also defends itself against common global CSS (Vite's starter
+`index.css`/`App.css`, Tailwind's preflight, CSS resets): inherited `text-align: center`, global `button`/`a`
+hover styles, `list-style: none`, and so on are neutralized inside the editor.
+
+One thing it cannot fix from the inside is layout rules on the editor's *ancestors*. If the editor looks
+narrow or off-centre in a fresh Vite project, delete these starter rules:
+
+```css
+/* index.css */
+body { display: flex; place-items: center; }
+/* App.css */
+#root { max-width: 1280px; margin: 0 auto; padding: 2rem; text-align: center; }
+```
+
+### Server-side / non-React use
+
+`markdownToHtml()` and `parseMarkdown()` from `akash-negi-markdown-editor/core` have no React or DOM dependency, so they also work in Node, Next.js Server Components and API routes for rendering saved markdown to HTML:
+
+```ts
+import { markdownToHtml } from "akash-negi-markdown-editor/core";
+>>>>>>> c24d699 (updated the project)
 
 const html = markdownToHtml("# Hello **world**");
 ```
@@ -79,8 +138,13 @@ const html = markdownToHtml("# Hello **world**");
 ## Development
 
 ```bash
+<<<<<<< HEAD
 git clone https://github.com/first-last-github/markdown-editor.git
 cd markdown-editor
+=======
+git clone https://github.com/AKASHNEGI-github/Markdown-Editor-React.ts.git
+cd Markdown-Editor-React.ts
+>>>>>>> c24d699 (updated the project)
 npm install
 npm run dev          # opens the demo playground (Vite) at localhost
 npm test             # runs the test suite (vitest)
@@ -92,7 +156,11 @@ npm run build        # both of the above, in order
 
 ## License
 
+<<<<<<< HEAD
 [MIT](./LICENSE) (c) first last
+=======
+[MIT](./LICENSE) (c) Akash Negi
+>>>>>>> c24d699 (updated the project)
 
 ## Project structure
 

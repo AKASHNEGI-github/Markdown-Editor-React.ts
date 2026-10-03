@@ -128,6 +128,30 @@ describe("checklist toggling in raw markdown", () => {
     const out = toggleCheckboxInMarkdown(md, 2); // "nested" is 3rd checkbox (index 2)
     expect(out).toBe("- [ ] a\n- [x] b\n  - [x] nested\n- [ ] c");
   });
+<<<<<<< HEAD
+=======
+
+  it("ignores task-looking lines inside fenced code blocks", () => {
+    const md = "- [ ] a\n\n```md\n- [ ] not a task\n```\n\n- [ ] b";
+    // index 1 is "b", not the line inside the fence
+    expect(toggleCheckboxInMarkdown(md, 1)).toBe("- [ ] a\n\n```md\n- [ ] not a task\n```\n\n- [x] b");
+  });
+
+  it("ignores tilde fences and handles longer closing fences", () => {
+    const md = "~~~\n- [ ] x\n~~~~\n- [ ] real";
+    expect(toggleCheckboxInMarkdown(md, 0)).toBe("~~~\n- [ ] x\n~~~~\n- [x] real");
+  });
+
+  it("finds checklist items nested in blockquotes", () => {
+    const md = "- [ ] a\n> - [ ] quoted\n\n- [ ] c";
+    expect(toggleCheckboxInMarkdown(md, 1)).toBe("- [ ] a\n> - [x] quoted\n\n- [ ] c");
+  });
+
+  it("respects an explicit checked value", () => {
+    expect(toggleCheckboxInMarkdown("- [x] a", 0, true)).toBe("- [x] a");
+    expect(toggleCheckboxInMarkdown("- [x] a", 0, false)).toBe("- [ ] a");
+  });
+>>>>>>> c24d699 (updated the project)
 });
 
 describe("table helpers", () => {

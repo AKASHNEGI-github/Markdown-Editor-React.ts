@@ -168,6 +168,83 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+<<<<<<< HEAD
+=======
+/* ---------------------------------------------------------------------- */
+/* Host-app isolation                                                      */
+/*                                                                         */
+/* Host apps ship global CSS (Vite's starter index.css/App.css, Tailwind's */
+/* preflight, CSS resets, ...). Those rules inherit into the editor or win */
+/* on specificity, e.g. `#root { text-align: center }`, `button:hover {    */
+/* border-color }`, `a:hover { color }`, `ul { list-style: none }`.        */
+/* This block gives every editor subtree a known baseline. It uses         */
+/* `:where()` for the element part so it only has class-level specificity  */
+/* (0,1,0): it beats element selectors in the host, but every component    */
+/* rule below (same specificity, declared later) still wins over it.       */
+/* ---------------------------------------------------------------------- */
+
+.mde-root,
+.mde-theme-scope {
+  text-align: left;
+  text-indent: 0;
+  text-transform: none;
+  text-shadow: none;
+  letter-spacing: normal;
+  word-spacing: normal;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: normal;
+  /* Native scrollbars / form controls follow the editor theme, not the page's. */
+  color-scheme: light dark;
+}
+.mde-root[data-theme="light"],
+.mde-theme-scope[data-theme="light"] {
+  color-scheme: light;
+}
+.mde-root[data-theme="dark"],
+.mde-theme-scope[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:is(.mde-root, .mde-theme-scope) :where(button, input, select, textarea) {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  margin: 0;
+}
+:is(.mde-root, .mde-theme-scope) :where(button) {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0;
+  border: 0 solid transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: none;
+}
+/* Host `button:hover { border-color }` and `button:focus { outline }` have
+   specificity (0,1,1); these are (0,2,0). Buttons that show a border set
+   --mde-btn-bc so hover/focus/active keep it. */
+:is(.mde-root, .mde-theme-scope) :where(button):is(:hover, :focus, :active) {
+  border-color: var(--mde-btn-bc, transparent);
+  outline: none;
+  box-shadow: none;
+}
+.mde-copy-btn,
+.mde-table-picker-cell {
+  --mde-btn-bc: var(--mde-border);
+}
+.mde-toolbar-btn.mde-active,
+.mde-table-picker-cell.mde-active {
+  --mde-btn-bc: var(--mde-text);
+}
+.mde-copy-btn.mde-copied {
+  --mde-btn-bc: currentColor;
+}
+
+>>>>>>> c24d699 (updated the project)
 .mde-root :focus-visible,
 .mde-theme-scope :focus-visible {
   outline: 2px solid var(--mde-focus-ring);
@@ -705,6 +782,15 @@
 .mde-heading-anchor:focus-visible {
   opacity: 1;
 }
+<<<<<<< HEAD
+=======
+.mde-heading-anchor:visited,
+.mde-heading-anchor:hover,
+.mde-heading-anchor:focus,
+.mde-heading-anchor:active {
+  color: var(--mde-text-muted);
+}
+>>>>>>> c24d699 (updated the project)
 
 .mde-p {
   margin: 0.7em 0;
@@ -821,6 +907,22 @@
 .mde-list {
   margin: 0.6em 0;
   padding-left: 1.6em;
+<<<<<<< HEAD
+=======
+  list-style-position: outside;
+}
+.mde-list-unordered {
+  list-style-type: disc;
+}
+.mde-list-unordered .mde-list-unordered {
+  list-style-type: circle;
+}
+.mde-list-unordered .mde-list-unordered .mde-list-unordered {
+  list-style-type: square;
+}
+.mde-list-ordered {
+  list-style-type: decimal;
+>>>>>>> c24d699 (updated the project)
 }
 .mde-list .mde-list {
   margin: 0.2em 0;
@@ -838,6 +940,13 @@
 .mde-checkbox {
   margin: 0;
   transform: translateY(1px);
+<<<<<<< HEAD
+=======
+  accent-color: var(--mde-accent);
+}
+.mde-checkbox:not(:disabled) {
+  cursor: pointer;
+>>>>>>> c24d699 (updated the project)
 }
 .mde-li-content {
   min-width: 0;
@@ -866,13 +975,30 @@
 .mde-link {
   color: var(--mde-accent);
   text-decoration: none;
+<<<<<<< HEAD
+=======
+  font-weight: inherit;
+}
+.mde-link:visited,
+.mde-link:hover,
+.mde-link:focus,
+.mde-link:active {
+  color: var(--mde-accent);
+>>>>>>> c24d699 (updated the project)
 }
 .mde-link:hover {
   text-decoration: underline;
 }
 
 .mde-image {
+<<<<<<< HEAD
   max-width: 100%;
+=======
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+>>>>>>> c24d699 (updated the project)
   border-radius: var(--mde-radius-sm);
 }
 
