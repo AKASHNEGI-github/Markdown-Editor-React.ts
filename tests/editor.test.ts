@@ -128,8 +128,6 @@ describe("checklist toggling in raw markdown", () => {
     const out = toggleCheckboxInMarkdown(md, 2); // "nested" is 3rd checkbox (index 2)
     expect(out).toBe("- [ ] a\n- [x] b\n  - [x] nested\n- [ ] c");
   });
-<<<<<<< HEAD
-=======
 
   it("ignores task-looking lines inside fenced code blocks", () => {
     const md = "- [ ] a\n\n```md\n- [ ] not a task\n```\n\n- [ ] b";
@@ -151,7 +149,6 @@ describe("checklist toggling in raw markdown", () => {
     expect(toggleCheckboxInMarkdown("- [x] a", 0, true)).toBe("- [x] a");
     expect(toggleCheckboxInMarkdown("- [x] a", 0, false)).toBe("- [ ] a");
   });
->>>>>>> c24d699 (updated the project)
 });
 
 describe("table helpers", () => {

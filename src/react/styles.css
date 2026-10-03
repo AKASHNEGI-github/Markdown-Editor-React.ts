@@ -168,8 +168,6 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-<<<<<<< HEAD
-=======
 /* ---------------------------------------------------------------------- */
 /* Host-app isolation                                                      */
 /*                                                                         */
@@ -244,7 +242,6 @@
   --mde-btn-bc: currentColor;
 }
 
->>>>>>> c24d699 (updated the project)
 .mde-root :focus-visible,
 .mde-theme-scope :focus-visible {
   outline: 2px solid var(--mde-focus-ring);
@@ -782,15 +779,12 @@
 .mde-heading-anchor:focus-visible {
   opacity: 1;
 }
-<<<<<<< HEAD
-=======
 .mde-heading-anchor:visited,
 .mde-heading-anchor:hover,
 .mde-heading-anchor:focus,
 .mde-heading-anchor:active {
   color: var(--mde-text-muted);
 }
->>>>>>> c24d699 (updated the project)
 
 .mde-p {
   margin: 0.7em 0;
@@ -907,8 +901,6 @@
 .mde-list {
   margin: 0.6em 0;
   padding-left: 1.6em;
-<<<<<<< HEAD
-=======
   list-style-position: outside;
 }
 .mde-list-unordered {
@@ -922,7 +914,6 @@
 }
 .mde-list-ordered {
   list-style-type: decimal;
->>>>>>> c24d699 (updated the project)
 }
 .mde-list .mde-list {
   margin: 0.2em 0;
@@ -940,13 +931,10 @@
 .mde-checkbox {
   margin: 0;
   transform: translateY(1px);
-<<<<<<< HEAD
-=======
   accent-color: var(--mde-accent);
 }
 .mde-checkbox:not(:disabled) {
   cursor: pointer;
->>>>>>> c24d699 (updated the project)
 }
 .mde-li-content {
   min-width: 0;
@@ -975,8 +963,6 @@
 .mde-link {
   color: var(--mde-accent);
   text-decoration: none;
-<<<<<<< HEAD
-=======
   font-weight: inherit;
 }
 .mde-link:visited,
@@ -984,21 +970,16 @@
 .mde-link:focus,
 .mde-link:active {
   color: var(--mde-accent);
->>>>>>> c24d699 (updated the project)
 }
 .mde-link:hover {
   text-decoration: underline;
 }
 
 .mde-image {
-<<<<<<< HEAD
-  max-width: 100%;
-=======
   display: inline-block;
   max-width: 100%;
   height: auto;
   vertical-align: middle;
->>>>>>> c24d699 (updated the project)
   border-radius: var(--mde-radius-sm);
 }
 

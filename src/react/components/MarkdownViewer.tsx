@@ -1,14 +1,8 @@
 "use client";
-<<<<<<< HEAD
-import { useMemo } from "react";
-import { parseMarkdown } from "../../core/parser/index";
-import { renderToReactElements } from "../../core/render/toReact";
-=======
 import { useCallback, useMemo, useState } from "react";
 import { parseMarkdown } from "../../core/parser/index";
 import { renderToReactElements } from "../../core/render/toReact";
 import { toggleCheckboxInMarkdown } from "../../editor/checklist";
->>>>>>> c24d699 (updated the project)
 import type { Highlighter } from "../../highlighter/index";
 
 export interface MarkdownViewerProps {
@@ -18,11 +12,6 @@ export interface MarkdownViewerProps {
   headingIds?: boolean;
   theme?: "light" | "dark" | "auto";
   className?: string;
-<<<<<<< HEAD
-}
-
-/** Read-only rendering of a markdown string. Use this for saved/received content you don't need to edit. */
-=======
   /**
    * Let readers tick / untick task-list checkboxes. Default `true`. Set to
    * `false` for a strictly read-only view. Toggling updates the rendered
@@ -34,7 +23,6 @@ export interface MarkdownViewerProps {
 }
 
 /** Rendering of a markdown string. Read-only apart from (optionally) clickable task-list checkboxes. */
->>>>>>> c24d699 (updated the project)
 export function MarkdownViewer({
   value,
   highlighter,
@@ -42,13 +30,6 @@ export function MarkdownViewer({
   headingIds = true,
   theme = "auto",
   className,
-<<<<<<< HEAD
-}: MarkdownViewerProps) {
-  const doc = useMemo(() => parseMarkdown(value, { headingIds }), [value, headingIds]);
-  const content = useMemo(
-    () => renderToReactElements(doc, { highlighter, openExternalLinksInNewTab }),
-    [doc, highlighter, openExternalLinksInNewTab],
-=======
   interactiveChecklists = true,
   onChange,
 }: MarkdownViewerProps) {
@@ -82,7 +63,6 @@ export function MarkdownViewer({
         onToggleCheckbox: handleToggle,
       }),
     [doc, highlighter, openExternalLinksInNewTab, interactiveChecklists, handleToggle],
->>>>>>> c24d699 (updated the project)
   );
   return (
     <div className={`mde-root mde-viewer-root${className ? ` ${className}` : ""}`} data-theme={theme}>

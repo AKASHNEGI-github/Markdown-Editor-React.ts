@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // import { useState } from "react";
 // import { MarkdownEditor, MarkdownViewer } from "../src/react/index";
 // import "../src/react/styles.css";
@@ -109,16 +107,10 @@
 
 
 
->>>>>>> c24d699 (updated the project)
 import { useState } from "react";
 import { MarkdownEditor, MarkdownViewer } from "../src/react/index";
 import "../src/react/styles.css";
 
-<<<<<<< HEAD
-const SAMPLE = `# Markdown Editor Demo
-
-This editor supports **bold**, *italic*, ***both***, ~~strikethrough~~, <u>underline</u>, inline \`code\`, X<sup>2</sup> and H<sub>2</sub>O.
-=======
 const SAMPLE = `# Markdown Editor: Feature Test
 
 This document exercises every feature the editor supports: inline formatting, headings, alerts, blockquotes, lists, task lists, tables, syntax highlighting, code groups, collapsible sections, and security edge cases. Task-list checkboxes in the preview are clickable, so try them.
@@ -164,51 +156,10 @@ Headings 1 and 2 are used for this document's structure. Levels 3 to 6 follow:
 ### A heading with \`code\`, **bold**, and a [link](https://example.com)
 
 ---
->>>>>>> c24d699 (updated the project)
 
 ## Alerts
 
 > [!NOTE]
-<<<<<<< HEAD
-> This is a note alert.
-
-> [!TIP]
-> This is a tip alert.
-
-> [!WARNING]
-> This is a warning alert.
-
-## Lists
-
-- Bulleted item
-- Another item
-  - Nested item
-
-1. First
-2. Second
-3. Third
-
-- [ ] Todo item
-- [x] Done item
-
-## Links and images
-
-[Anthropic](https://www.anthropic.com "Anthropic homepage")
-
-## Table
-
-| Feature | Status |
-| ------- | :----: |
-| Bold | Done |
-| Tables | Done |
-
-## Collapsible section
-
-<details>
-<summary>Click to expand</summary>
-
-Hidden content can include **formatting**, lists, and even code:
-=======
 > This is a **note** alert. It supports inline \`code\`, **bold**, and _italic_ text inside.
 
 > [!TIP]
@@ -777,7 +728,6 @@ Hidden content can include **formatting**, lists, tables, and code:
 |---------|-------|
 | \`theme\` | \`auto\` |
 | \`height\`| \`600px\` |
->>>>>>> c24d699 (updated the project)
 
 \`\`\`js
 console.log("still just markdown");
@@ -785,43 +735,6 @@ console.log("still just markdown");
 
 </details>
 
-<<<<<<< HEAD
-## Code
-
-\`\`\`js
-function greet(name) {
-  // says hello
-  return \`Hello, \${name}!\`;
-}
-console.log(greet("world"));
-\`\`\`
-
-::: code-group
-\`\`\`js [JavaScript]
-console.log("hi");
-\`\`\`
-\`\`\`python [Python]
-print("hi")
-\`\`\`
-\`\`\`bash [Shell]
-echo "hi"
-\`\`\`
-:::
-
----
-
-Try the toolbar's second row: reset, theme, view mode (including the new
-HTML-source view), and fullscreen are all built into the editor itself now.
-
-Try opening the **Table**, **Alert**, or **Dropdown (<details>)** toolbar
-buttons too — popovers now always match the editor's current theme, even if
-you toggle light/dark while one is open, and never get clipped or create a
-stray scrollbar.
-
-Notice the line numbers next to this text, the copy icon above the writing
-area, the download icon (prints the preview — "Save as PDF" from there
-works in every browser), and the **?** guide in the toolbar's second row.
-=======
 <details open>
 <summary>This one starts open</summary>
 
@@ -903,7 +816,6 @@ Unicode and emoji pass through untouched: café, naïve, 日本語のテキス�
 ---
 
 Try the toolbar too: the **Table**, **Alert**, and **Dropdown** buttons, the view modes (edit, split, preview, HTML source), the theme toggle, fullscreen, and the **?** guide.
->>>>>>> c24d699 (updated the project)
 `;
 
 export function App() {
@@ -918,8 +830,4 @@ export function App() {
       <MarkdownViewer value={value} />
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c24d699 (updated the project)
